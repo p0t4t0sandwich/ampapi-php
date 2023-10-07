@@ -19,3 +19,16 @@
             parent::__construct($baseUri, $username, $password, $rememberMeToken, $sessionId);
         }
 
+        /**
+        * 
+        * Name Description Optional
+        * @return stdClass
+        */
+        function Dummy() {
+            $data = array(
+            );
+            return $this->APICall("RCONPlugin/Dummy", stdClass::class, $data);
+        }
+
+    }
+?>

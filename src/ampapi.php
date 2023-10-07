@@ -1,6 +1,6 @@
 <?php
     require('./vendor/autoload.php');
-    require("ampapi/types.php");
+    require("src/types.php");
 
     /**
      * AMPAPI - An API that allows you to communicate with AMP installations from within PHP
@@ -24,6 +24,7 @@
         public string $sessionId;
         private int $lastAPICall;
         public int $relogInterval = 60*5;
+        private JsonMapper $mapper;
 
         /**
          * AMPAPI constructor
@@ -48,6 +49,8 @@
             $this->sessionId = $sessionId;
 
             $this->lastAPICall = time();
+
+            $this->mapper = new JsonMapper();
         }
 
         /**
@@ -57,12 +60,12 @@
          * @param array $data The data to send
          * @return object The response
          */
-        function APICall(string $endpoint, array $data = array()): object {
+        function APICall(string $endpoint, string $class = "", array $data = array()) {
             // Check the last API call time, and if it's been more than the relog interval, relog.
             $now = time();
             if ($now - $this->lastAPICall > $this->relogInterval) {
                 $this->lastAPICall = $now;
-                $this->Login();
+                $this->APILogin();
             } else {
                 $this->lastAPICall = $now;
             }
@@ -81,7 +84,7 @@
             $response = curl_exec($curl);
             curl_close($curl);
 
-            return json_decode($response);
+            return $this->mapper->map(json_decode($response), $class);
         }
 
         /**
@@ -89,7 +92,7 @@
          * @author p0t4t0sandwich
          * @return LoginResult The response
          */
-        function Login(): LoginResult {
+        function APILogin() {
             $data = array(
                 "username" => $this->username,
                 "password" => "",
@@ -102,8 +105,7 @@
                 $data["password"] = $this->password;
             }
 
-            $mapper = new JsonMapper();
-            $loginResult = $mapper->map($this->APICall("Core/Login", $data), LoginResult::class);
+            $loginResult = $this->APICall("Core/Login", LoginResult::class, $data);
 
             if ($loginResult->success) {
                 $this->rememberMeToken = $loginResult->rememberMeToken;

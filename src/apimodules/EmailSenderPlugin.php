@@ -19,3 +19,16 @@
             parent::__construct($baseUri, $username, $password, $rememberMeToken, $sessionId);
         }
 
+        /**
+        * 
+        * Name Description Optional
+        * @return Task
+        */
+        function TestSMTPSettings() {
+            $data = array(
+            );
+            return $this->APICall("EmailSenderPlugin/TestSMTPSettings", Task::class, $data);
+        }
+
+    }
+?>

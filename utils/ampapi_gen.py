@@ -5,97 +5,106 @@ import requests
 import json
 
 type_dict = {
-    "InstanceDatastore": "Any",
-    "ActionResult": "Any",
+    "InstanceDatastore": "InstanceDatastore",
+    "ActionResult": "ActionResult",
     "Int32": "int",
-    "IEnumerable<InstanceDatastore>": "list",
-    "RunningTask": "Any",
-    "IEnumerable<JObject>": "list[dict]",
-    "Guid": "str", # UUID
-    "Task<RunningTask>": "Any",
-    "IEnumerable<DeploymentTemplate>": "list",
-    "String": "str",
-    "DeploymentTemplate": "Any",
+    "IEnumerable<InstanceDatastore>": "Result",
+    "RunningTask": "Result",
+    "Task<RunningTask>": "Task",
+    "IEnumerable<JObject>": "Result",
+    "Guid": "string",
+    "IEnumerable<DeploymentTemplate>": "Result",
+    "String": "string",
+    "DeploymentTemplate": "stdClass",
     "Boolean": "bool",
-    "List<String>": "list[str]",
-    "PostCreateActions": "Any",
-    "Dictionary<String, String>": "dict[str, str]",
-    "RemoteTargetInfo": "Any",
-    "IEnumerable<ApplicationSpec>": "list",
-    "Void": "None",
-    "IEnumerable<EndpointInfo>": "list",
-    "IEnumerable<IADSInstance>": "list",
-    "JObject": "dict",
-    "PortProtocol": "str",
-    "Task<ActionResult>": "Any",
-    "ActionResult<String>": "Any",
-    "IADSInstance": "bool",
-    "Uri": "str",
-    "IEnumerable<PortUsage>": "list",
-    "Dictionary<String, Int32>": "dict[str, int]",
-    "LocalAMPInstance": "Any",
-    "ContainerMemoryPolicy": "Any",
-    "Single": "Any",
-    "Task<JObject>": "Any",
+    "List<String>": "ArrayObject",
+    "PostCreateActions": "stdClass",
+    "Dictionary<String, String>": "ArrayObject",
+    "RemoteTargetInfo": "RemoteTargetInfo",
+    "IEnumerable<ApplicationSpec>": "Result",
+    "Void": "stdClass",
+    "IEnumerable<EndpointInfo>": "Result",
+    "IEnumerable<IADSInstance>": "Result",
+    "JObject": "ArrayObject",
+    "PortProtocol": "stdClass",
+    "ActionResult<String>": "ActionResult",
+    "IADSInstance": "Result",
+    "Uri": "string",
+    "IEnumerable<PortUsage>": "Result",
+    "Dictionary<String, Int32>": "ArrayObject",
+    "LocalAMPInstance": "stdClass",
+    "ContainerMemoryPolicy": "stdClass",
+    "Single": "stdClass",
     "Int64": "int",
-    "FileChunkData": "Any",
-    "IEnumerable<BackupManifest>": "list[dict]",
-    "Nullable<DateTime>": "Any",
-    "IEnumerable<IAuditLogEntry>": "dict",
-    "Dictionary<String, IEnumerable<JObject>>": "dict[str, list[dict]]",
-    "IDictionary<String, String>": "dict[str, str]",
-    "List<JObject>": "list[dict]",
-    "String[]": "list[str]",
-    "Task<IEnumerable<AuthRoleSummary>>": "Any",
-    "Task<IDictionary<Guid, String>>": "Any",
-    "Task<AuthRoleSummary>": "Any",
-    "Task<ActionResult<Guid>>": "Any",
-    "Nullable<Boolean>": "bool | None",
-    "Task<IEnumerable<String>>": "Any",
-    "ScheduleInfo": "Any",
-    "Int32[]": "list[int]",
-    "TimeIntervalTrigger": "Any",
-    "IEnumerable<WebSessionSummary>": "list",
-    "Task<IEnumerable<UserInfoSummary>>": "Any",
-    "Task<UserInfo>": "Any",
-    "Task<IEnumerable<UserInfo>>": "Any",
-    "IList<IPermissionsTreeNode>": "list",
-    "WebauthnLoginInfo": "Any",
-    "IEnumerable<WebauthnCredentialSummary>": "list",
-    "Task<ActionResult<TwoFactorSetupInfo>>": "Any",
-    "IEnumerable<RunningTask>": "Any", "ModuleInfo": "Any",
-    "Dictionary<String, Dictionary<String, MethodInfoSummary>>": "dict[str, dict]",
-    "Object": "Any",
-    "Task<String>": "Any",
-    "UpdateInfo": "Any",
-    "IEnumerable<ListeningPortSummary>": "list",
+    "FileChunkData": "stdClass",
+    "IEnumerable<BackupManifest>": "Result",
+    "Nullable<DateTime>": "stdClass", # Optional?
+    "IEnumerable<IAuditLogEntry>": "Result",
+    "Dictionary<String, IEnumerable<JObject>>": "Result",
+    "IDictionary<String, String>": "ArrayObject",
+    "List<JObject>": "ArrayObject",
+    "String[]": "ArrayObject",
+    "Nullable<Boolean>": "bool", # Optional?
+    "ScheduleInfo": "stdClass",
+    "Int32[]": "ArrayObject",
+    "TimeIntervalTrigger": "stdClass",
+    "IEnumerable<WebSessionSummary>": "Result",
+    "IList<IPermissionsTreeNode>": "ArrayObject",
+    "WebauthnLoginInfo": "stdClass",
+    "IEnumerable<WebauthnCredentialSummary>": "Result",
+    "IEnumerable<RunningTask>": "Result",
+    "ModuleInfo": "Result",
+    "Dictionary<String, Dictionary<String, MethodInfoSummary>>": "ArrayObject",
+    "Object": "stdClass",
+    "UpdateInfo": "Result",
+    "IEnumerable<ListeningPortSummary>": "Result",
+    "Task<JObject>": "Task",
+    "Task<ActionResult<TwoFactorSetupInfo>>": "Task",
+    "Task<IEnumerable<String>>": "Task",
+    "Task<UserInfo>": "Task",
+    "Task<IEnumerable<UserInfoSummary>>": "Task",
+    "Task<IEnumerable<UserInfo>>": "Task",
+    "Task<String>": "Task",
+    "Task<AuthRoleSummary>": "Task",
+    "Task<IEnumerable<AuthRoleSummary>>": "Task",
+    "Task<IDictionary<Guid, String>>": "Task",
+    "Task<ActionResult>": "Task",
+    "Task<ActionResult<Guid>>": "Task",
+    "Task<ActionResult<LicenceInfo>>": "Task",
 
     ## Custom types
     # "Result<Instance>": "Result<Instance>",
     # "Result<RemoteTargetInfo>": "Result<RemoteTargetInfo>",
-    # "SettingsSpec": "SettingsSpec",
-    # "Status": "Status",
-    # "Updates": "Updates",
+    "SettingsSpec": "SettingsSpec",
+    "Status": "Status",
+    "Updates": "Updates",
     # "Result<Map<String, String>>": "Result<Map<String, String>>",
-    # "LoginResult": "LoginResult"
+    "LoginResult": "LoginResult",
+    # "Result<List<FileDirectory>>": "Result<List<FileDirectory>>",
+    # "Result<ActionResult<String>>": "Result<ActionResult<String>>",
 }
 
 custom_types = {
-    # # API.ADSModule.GetInstance
+    # API.ADSModule.GetInstance
     # "ADSModule.GetInstance": "Result<Instance>",
-    # # API.ADSModule.GetTargetInfo
+    # API.ADSModule.GetTargetInfo
     # "ADSModule.GetTargetInfo": "Result<RemoteTargetInfo>",
 
-    # # API.Core.GetSettingsSpec
-    # "Core.GetSettingsSpec": "SettingsSpec",
-    # # API.Core.GetStatus
-    # "Core.GetStatus": "Status",
-    # # API.Core.GetUpdates
-    # "Core.GetUpdates": "Updates",
-    # # API.Core.GetUserList
+    # API.Core.GetSettingsSpec
+    "Core.GetSettingsSpec": "SettingsSpec",
+    # API.Core.GetStatus
+    "Core.GetStatus": "Status",
+    # API.Core.GetUpdates
+    "Core.GetUpdates": "Updates",
+    # API.Core.GetUserList
     # "Core.GetUserList": "Result<Map<String, String>>",
-    # # API.Core.Login
-    # "Core.Login": "LoginResult",
+    # API.Core.Login
+    "Core.Login": "LoginResult",
+
+    # API.FileManagerPlugin.GetDirectoryListing
+    # "FileManagerPlugin.GetDirectoryListing": "Result<List<FileDirectory>>",
+    # API.FileManagerPlugin.ReadFileChunk
+    # "FileManagerPlugin.ReadFileChunk": "Result<ActionResult<String>>",
 }
 
 def generate_apimodule_method(module: str, method: str, method_spec: dict):
@@ -155,7 +164,7 @@ def generate_apimodule_method(module: str, method: str, method_spec: dict):
 
         # Print out the type if it hasn't been added to the type_dict
         if not type_name in type_dict.keys(): print(type_name)
-        parameters += f"{name}: {type_dict[type_name]}, "
+        parameters += f"{type_dict[type_name]} ${name}, "
 
     parameters = parameters[:-2]
 
@@ -194,12 +203,13 @@ def generate_apimodule(module: str, methods: dict):
         tf.close()
 
     # Create a new file called f{module}.java
-    f = open(f"../ampapi/apimodules/{module}.py","w+")
+    f = open(f"../src/apimodules/{module}.php","w+")
     f.write(api_module_template.replace("%MODULE_NAME%", module))
 
     for method in methods.keys():
         f.write(generate_apimodule_method(module, method, methods[method]))
 
+    f.write("    }\n?>")
     f.close()
 
 def generate_spec(spec: dict):
@@ -224,5 +234,3 @@ if __name__ == "__main__":
     load_custom_types(spec)
 
     generate_spec(spec)
-
-    
